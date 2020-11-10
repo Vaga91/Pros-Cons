@@ -1,0 +1,58 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module",
+    "ecmaVersion": 2020
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["warn"],
+    "no-unused-vars": "warn",
+    "func-names": ["error", "always", { "generators": "never" }],
+    "class-methods-use-this": "off",
+    "function-paren-newline": "off",
+    "import/no-named-as-default": "off",
+    "import/prefer-default-export": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-plusplus": "off",
+    "one-var": "off",
+    "react/forbid-prop-types": "off",
+    "max-len": [
+      1,
+      120,
+      2,
+      {
+        "ignoreRegExpLiterals": true,
+        "ignoreComments": true
+      }
+    ],
+    "object-curly-newline": [
+      "off",
+      {
+        "ObjectExpression": "always",
+        "ObjectPattern": {
+          "minProperties": 2
+        }
+      }
+    ],
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "react/no-children-prop": "off",
+    "no-nested-ternary": "off"
+  }
+}
