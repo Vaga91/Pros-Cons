@@ -5,7 +5,6 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import store from "./redux/store";
 import { history } from "./utils/utils";
-import Loading from "./components/common/Loading";
 import ErrorModal from "./components/common/ErrorModal";
 import PrivateRoute from "./components/common/PrivateRoute";
 
@@ -29,7 +28,6 @@ const App = () => {
               </Switch>
             </Suspense>
           </Router>
-          <Loading />
           <ErrorModal />
         </Provider>
       </I18nextProvider>

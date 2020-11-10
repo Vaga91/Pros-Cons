@@ -1,7 +1,9 @@
 export default {
   translations: {
     header: {
-      content: "Should I eat at McDonalds?"
-    }
+      title: "Should I eat at McDonalds?"
+    },
+    pros: "pros",
+    cons: "cons"
   }
 };

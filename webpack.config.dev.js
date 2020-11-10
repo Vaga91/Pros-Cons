@@ -81,46 +81,12 @@ module.exports = (env = {}) => {
           ]
         },
         {
-          test: /\.module\.s(a|c)ss$/,
-          loader: [
-            "style-loader",
-            {
-              loader: cssLoaderName,
-              options: {
-                modules: true,
-                localIdentName: "[name]_[local]__[hash:base64:5]",
-                camelCase: true,
-                sourceMap: true
-              }
-            },
-            "resolve-url-loader",
-            {
-              loader: "sass-loader",
-              options: {
-                sourceMap: true
-              }
-            }
-          ]
-        },
-        {
-          test: /\.(png|gif|svg|jpe?g)$/,
+          test: /\.(woff|eot|ttf|woff2)$/,
           use: [
             {
               loader: "file-loader",
               options: {
-                name: "images/[name]_[contenthash].[ext]"
-              }
-            },
-            "img-loader"
-          ]
-        },
-        {
-          test: /\.(woff|eot|ttf|woff2|otf)$/,
-          use: [
-            {
-              loader: "file-loader",
-              options: {
-                name: "./fonts/[name].[ext]"
+                name: "fonts/[name]_[contenthash].[ext]"
               }
             }
           ]

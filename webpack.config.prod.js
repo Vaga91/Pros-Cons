@@ -19,7 +19,7 @@ module.exports = (env = {}) => {
     mode: "production",
     entry: ["./src/index.jsx"],
     resolve: {
-      extensions: [".js", ".jsx", ".scss", ".css", ".json"]
+      extensions: [".js", ".jsx", ".scss", ".json"]
     },
     output: {
       path: path.join(__dirname, "/build"),
@@ -40,11 +40,6 @@ module.exports = (env = {}) => {
               }
             }
           ]
-        },
-        {
-          test: /\.css$/,
-          exclude: /\.module.css$/,
-          use: ["style-loader", cssLoaderName]
         },
         {
           test: /\.s(a|c)ss$/,
@@ -82,18 +77,6 @@ module.exports = (env = {}) => {
                 sourceMap: true
               }
             }
-          ]
-        },
-        {
-          test: /\.(png|gif|svg|jpe?g)$/,
-          use: [
-            {
-              loader: "file-loader",
-              options: {
-                name: "images/[name]_[contenthash].[ext]"
-              }
-            },
-            "img-loader"
           ]
         },
         {

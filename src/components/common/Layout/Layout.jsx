@@ -1,23 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { blue, green, orange } from "@material-ui/core/colors";
-import Header from "./Header";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: green,
-    error: orange
-  }
-});
+import { useTranslation } from "react-i18next";
+import Styled from "./styled";
 
 const Layout = ({ children }) => {
+  const { t } = useTranslation();
   return (
-    <ThemeProvider theme={theme}>
-      <Header />
+    <Styled.Wrapper className="wrapper">
+      <Styled.Header className="header">
+        <Styled.Title>{t("header.title")}</Styled.Title>
+      </Styled.Header>
       {children}
-    </ThemeProvider>
+    </Styled.Wrapper>
   );
 };
 

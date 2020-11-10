@@ -18,3 +18,4 @@ npm-debug.log*
 .scannerwork/
 build.rar
 package-lock.json
+debug.log

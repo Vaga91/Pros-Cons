@@ -1,10 +1,32 @@
 import React, { useState } from "react";
-import styles from "./ProsConsList.module.scss";
+import { useTranslation } from "react-i18next";
+import Styled from "./styled";
+
+const renderInputs = (data, name, handleChange) => {
+  const { t } = useTranslation();
+  return (
+    <Styled.Items className="items">
+      <Styled.Title>{t(name).toUpperCase()}</Styled.Title>
+      <Styled.Ol>
+        {data.map((el, i) => {
+          const key = `${el.name}${i}`;
+          return (
+            <React.Fragment key={key}>
+              <Styled.Li>
+                <Styled.Input type="text" name={name} value={el.value || ""} onChange={e => handleChange(e, i)} />
+              </Styled.Li>
+            </React.Fragment>
+          );
+        })}
+      </Styled.Ol>
+    </Styled.Items>
+  );
+};
 
 const ProsConsList = () => {
   const [list, setList] = useState({
-    pros: [{ name: "pros", value: "", new: true }],
-    cons: [{ name: "cons", value: "", new: true }]
+    pros: [{ name: "pros", new: true }],
+    cons: [{ name: "cons", new: true }]
   });
 
   const handleChange = (e, i) => {
@@ -16,32 +38,21 @@ const ProsConsList = () => {
     if (value.length && cloneList[i].new) {
       cloneList[i].new = false;
       cloneList.push({ new: true, name });
-      setList({ ...list, [name]: cloneList });
     }
 
     if (!value.length) {
-      const filtered = cloneList.filter((el, index) => index !== i);
-      setList({ ...list, [name]: filtered });
-    } else {
-      setList({ ...list, [name]: cloneList });
+      cloneList.splice(i, 1);
     }
+
+    setList({ ...list, [name]: cloneList });
   };
 
   return (
     <>
-      <div className={styles.wrapper}>
-        <div>
-          {list.pros.map((el, i) => (
-            <input key={el.value} type="text" name="pros" value={el.value || ""} onChange={e => handleChange(e, i)} />
-          ))}
-        </div>
-        <h3>Divider</h3>
-        <div>
-          {list.cons.map((el, i) => (
-            <input key={el.value} type="text" name="cons" value={el.value || ""} onChange={e => handleChange(e, i)} />
-          ))}
-        </div>
-      </div>
+      <Styled.ItemsWrapper>
+        {renderInputs(list.pros, "pros", handleChange)}
+        {renderInputs(list.cons, "cons", handleChange)}
+      </Styled.ItemsWrapper>
     </>
   );
 };
