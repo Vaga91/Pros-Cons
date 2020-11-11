@@ -5,7 +5,7 @@ import Styled from "./styled";
 const renderInputs = (data, name, handleChange) => {
   const { t } = useTranslation();
   return (
-    <Styled.Items className="items">
+    <Styled.Items>
       <Styled.Title>{t(name).toUpperCase()}</Styled.Title>
       <Styled.Ol>
         {data.map((el, i) => {

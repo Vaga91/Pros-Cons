@@ -6,8 +6,8 @@ import Styled from "./styled";
 const Layout = ({ children }) => {
   const { t } = useTranslation();
   return (
-    <Styled.Wrapper className="wrapper">
-      <Styled.Header className="header">
+    <Styled.Wrapper>
+      <Styled.Header>
         <Styled.Title>{t("header.title")}</Styled.Title>
       </Styled.Header>
       {children}
