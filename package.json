@@ -11,16 +11,16 @@
     "react-cookie": "^4.0.3",
     "react-dom": "^16.12.0",
     "react-input-mask": "^2.0.4",
-    "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "source-map-loader": "^1.1.2",
     "styled-components": "^5.2.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.dev.js  --http",
-    "start-root": "webpack-dev-server --config ./webpack.config.dev.js  --http --env.APP_BASE_PATH=/",
-    "build": "webpack --config webpack.config.prod.js",
-    "build-root": "webpack --config webpack.config.prod.js --env.APP_BASE_PATH=/",
+    "start": "NODE_ENV=dev webpack-dev-server --config ./webpack.config.js  --http",
+    "start-root": "NODE_ENV=dev webpack-dev-server --config ./webpack.config.js  --http --env.APP_BASE_PATH=/",
+    "build": "NODE_ENV=prod webpack --config webpack.config.js",
+    "build-root": "NODE_ENV=prod webpack --config webpack.config.js --env.APP_BASE_PATH=/",
     "test": "jest --coverage",
     "serve": "serve -d ./dist"
   },

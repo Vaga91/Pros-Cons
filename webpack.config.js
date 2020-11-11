@@ -1,8 +1,8 @@
 const Webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OpenBrowserPlugin = require("@juexro/open-browser-webpack-plugin");
 const dotenv = require("dotenv").config({
   path: path.join(__dirname, "/.env")
 });
@@ -10,14 +10,22 @@ const pjson = require("./package.json");
 
 process.traceDeprecation = true;
 
+const { PORT } = process.env;
+
 const cssLoaderName = "css-loader";
+
+const isProduction = process.env.NODE_ENV === "prod";
+const isDevelopment = process.env.NODE_ENV === "dev";
 
 module.exports = (env = {}) => {
   const publicPath = env.APP_BASE_PATH || process.env.APP_BASE_PATH;
   dotenv.parsed.APP_BASE_PATH = publicPath;
   return {
-    mode: "production",
+    mode: isDevelopment ? "development" : "production",
     entry: ["./src/index.jsx"],
+    watchOptions: {
+      ignored: ["node_modules"]
+    },
     resolve: {
       extensions: [".js", ".jsx", ".scss", ".json"]
     },
@@ -25,7 +33,18 @@ module.exports = (env = {}) => {
       path: path.join(__dirname, "/build"),
       publicPath,
       chunkFilename: `chunk_[name]_${pjson.version}_[contenthash].js`,
-      filename: `bundle_${pjson.version}_[contenthash].js`
+      filename: "bundle.js"
+    },
+    devtool: isDevelopment ? "inline-source-map" : false,
+    devServer: {
+      compress: true,
+      clientLogLevel: "none",
+      transportMode: "ws",
+      port: PORT,
+      contentBase: "./build",
+      hot: true,
+      publicPath,
+      historyApiFallback: true
     },
     module: {
       rules: [
@@ -36,10 +55,18 @@ module.exports = (env = {}) => {
             {
               loader: "babel-loader",
               options: {
-                presets: ["@babel/preset-env", "@babel/react"]
+                presets: ["@babel/preset-env", "@babel/react"],
+                cacheDirectory: true
               }
+            },
+            {
+              loader: "eslint-loader"
             }
           ]
+        },
+        {
+          test: /\.css$/,
+          use: ["style-loader", cssLoaderName]
         },
         {
           test: /\.s(a|c)ss$/,
@@ -51,29 +78,8 @@ module.exports = (env = {}) => {
             {
               loader: "sass-loader",
               options: {
-                localIdentName: "[name]_[local]__[hash:base64:5]",
-                sourceMap: true
-              }
-            }
-          ]
-        },
-        {
-          test: /\.module\.s(a|c)ss$/,
-          loader: [
-            "style-loader",
-            {
-              loader: cssLoaderName,
-              options: {
                 modules: true,
                 localIdentName: "[name]_[local]__[hash:base64:5]",
-                camelCase: true,
-                sourceMap: true
-              }
-            },
-            "resolve-url-loader",
-            {
-              loader: "sass-loader",
-              options: {
                 sourceMap: true
               }
             }
@@ -93,39 +99,20 @@ module.exports = (env = {}) => {
       ]
     },
     optimization: {
-      minimizer: [new UglifyJsPlugin()],
-      splitChunks: {
-        cacheGroups: {
-          styles: {
-            name: "styles",
-            test: /\.s(a|c)ss$/,
-            chunks: "all",
-            enforce: true
-          }
-        }
-      }
+      minimize: isProduction
     },
     plugins: [
-      new Webpack.optimize.OccurrenceOrderPlugin(),
       new Webpack.DefinePlugin({
         "process.env": JSON.stringify(dotenv.parsed),
-        "process.env.NODE_ENV": JSON.stringify("production")
-      }),
-      new UglifyJsPlugin({
-        sourceMap: true,
-        uglifyOptions: {
-          inline: false
-        }
-      }),
-      new MiniCssExtractPlugin({
-        filename: `[name]_${pjson.version}_[contenthash].css`,
-        chunkFilename: `[id]_${pjson.version}_[contenthash].css`
+        "process.env.NODE_ENV": JSON.stringify("development")
       }),
       new HtmlWebpackPlugin({
         favicon: "src/assets/favicon.ico",
-        template: "src/assets/index.html",
-        env: process.env
-      })
+        template: "src/assets/index.html"
+      }),
+      new MiniCssExtractPlugin(),
+      new Webpack.HotModuleReplacementPlugin(),
+      new OpenBrowserPlugin({ url: `http://localhost:${PORT}` })
     ]
   };
 };
