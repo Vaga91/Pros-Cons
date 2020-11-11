@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import Styled from "./styled";
 
 const renderInputs = (data, name, handleChange) => {
-  const { t } = useTranslation();
   return (
     <Styled.Items>
-      <Styled.Title>{t(name).toUpperCase()}</Styled.Title>
+      <Styled.Title>{name.toUpperCase()}</Styled.Title>
       <Styled.Ol>
         {data.map((el, i) => {
           const key = `${el.name}${i}`;

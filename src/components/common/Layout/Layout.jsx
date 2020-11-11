@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
 import Styled from "./styled";
 
 const Layout = ({ children }) => {
-  const { t } = useTranslation();
   return (
     <Styled.Wrapper>
       <Styled.Header>
-        <Styled.Title>{t("header.title")}</Styled.Title>
+        <Styled.Title>Should I eat at McDonalds?</Styled.Title>
       </Styled.Header>
       {children}
     </Styled.Wrapper>
